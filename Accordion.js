@@ -20,7 +20,7 @@ export default class Accordion extends Component {
     duration: PropTypes.number,
     easing: PropTypes.string,
     underlayColor: PropTypes.string,
-    touchableComponent: PropTypes.elementType,
+    touchableComponent: PropTypes.func,
     touchableProps: PropTypes.object,
     disabled: PropTypes.bool,
     expandFromBottom: PropTypes.bool,
@@ -62,6 +62,7 @@ export default class Accordion extends Component {
   render() {
     let viewProps = {};
     let collapsibleProps = {};
+    let zIndexInitialValue = 9999;
 
     Object.keys(this.props).forEach(key => {
       if (COLLAPSIBLE_PROPS.includes(key)) {
@@ -100,7 +101,7 @@ export default class Accordion extends Component {
     return (
       <View style={containerStyle} {...viewProps}>
         {sections.map((section, key) => (
-          <View key={key} style={sectionContainerStyle}>
+          <View key={key} style={[{backgroundColor: section.bgColorHexCode, borderBottomLeftRadius:15, borderBottomRightRadius:15, marginBottom:-20, paddingTop:18, borderTopColor:'#000', borderTopWidth:1, position:'relative', zIndex: --zIndexInitialValue}]}>
             {renderSectionTitle(section, key, activeSections.includes(key))}
 
             {expandFromBottom && renderCollapsible(section, key)}
@@ -128,6 +129,7 @@ export default class Accordion extends Component {
                 sections
               )}
           </View>
+          
         ))}
       </View>
     );
